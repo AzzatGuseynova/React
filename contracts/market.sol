@@ -3,12 +3,13 @@ pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts@4.9.3/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts@4.9.3/access/AccessControl.sol";
+import "@openzeppelin/contracts@4.9.3/security/ReentrancyGuard.sol";
 
 /**
  * @title Marketplace for ERC721 tokens
- * @dev Implements buying and renting of NFTs with ERC721 standard
+ * @dev Implements buying and renting of NFTs with ERC721 standard. Includes admin controls.
  */
-contract Marketplace is ERC721, AccessControl {
+contract Marketplace is ERC721, AccessControl, ReentrancyGuard {
     struct Product {
         address owner;
         string name;
@@ -20,6 +21,7 @@ contract Marketplace is ERC721, AccessControl {
     }
 
     bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
+    uint256 private constant FEE_DENOMINATOR = 100;
 
     Product[] public products;
     uint256 public referralBonus;
@@ -75,22 +77,10 @@ contract Marketplace is ERC721, AccessControl {
         defaultExpirationTime = _defaultExpirationTime;
     }
 
-    /**
-     * @dev See {IERC165-supportsInterface}.
-     */
     function supportsInterface(bytes4 interfaceId) public view virtual override(ERC721, AccessControl) returns (bool) {
-        return ERC721.supportsInterface(interfaceId) || AccessControl.supportsInterface(interfaceId);
+        return super.supportsInterface(interfaceId);
     }
 
-
-    /**
-     * @dev Adds a product to the marketplace
-     * @param _name Name of the product
-     * @param _price Price of the product
-     * @param _isForSale Whether the product is for sale
-     * @param _isForRent Whether the product is for rent
-     * @param _expirationTime Duration in seconds for which the product is available for rent
-     */
     function addProduct(
         string memory _name,
         uint256 _price,
@@ -98,53 +88,31 @@ contract Marketplace is ERC721, AccessControl {
         bool _isForRent,
         uint256 _expirationTime
     ) external onlyAdmin {
-        require(
-            _price >= minSalePrice || (_isForRent && _price >= minRentPrice),
-            "Price too low."
-        );
         require(_isForSale || _isForRent, "Product must be for sale or rent.");
+        require(_price >= (_isForSale ? minSalePrice : minRentPrice), "Price too low.");
+
         uint256 newProductId = products.length;
-        products.push(
-            Product(
-                msg.sender,
-                _name,
-                _price,
-                _isForSale,
-                _isForRent,
-                address(0),
-                block.timestamp + (_expirationTime == 0 ? defaultExpirationTime : _expirationTime)
-            )
-        );
+        products.push(Product({
+            owner: msg.sender,
+            name: _name,
+            price: _price,
+            isForSale: _isForSale,
+            isForRent: _isForRent,
+            renter: address(0),
+            expirationTime: block.timestamp + (_expirationTime == 0 ? defaultExpirationTime : _expirationTime)
+        }));
         _mint(msg.sender, newProductId);
-        emit ProductAdded(
-            newProductId,
-            msg.sender,
-            _name,
-            _price,
-            _isForSale,
-            _isForRent
-        );
+
+        emit ProductAdded(newProductId, msg.sender, _name, _price, _isForSale, _isForRent);
     }
 
-    /**
-     * @dev Buys a product from the marketplace
-     * @param _productId ID of the product
-     * @param _referrer Address of the referrer
-     */
-    function buyProduct(uint256 _productId, address _referrer) external payable {
+    function buyProduct(uint256 _productId, address _referrer) external payable nonReentrant {
         Product storage product = products[_productId];
         require(product.isForSale, "Product not for sale.");
         require(msg.value >= product.price, "Insufficient funds.");
         require(product.owner != address(0), "Invalid owner.");
 
-        uint256 fee = (product.price * feePercentage) / 100;
-        uint256 amountToSeller = product.price - fee;
-
-        payable(product.owner).transfer(amountToSeller);
-        if (_referrer != address(0) && _referrer != msg.sender) {
-            referrals[_referrer]++;
-            payable(_referrer).transfer(referralBonus);
-        }
+        _handlePayment(product.owner, product.price, _referrer);
 
         product.owner = msg.sender;
         product.isForSale = false;
@@ -154,74 +122,48 @@ contract Marketplace is ERC721, AccessControl {
         emit ProductSold(_productId, msg.sender, product.owner, product.price);
     }
 
-    /**
-     * @dev Rents a product from the marketplace
-     * @param _productId ID of the product to rent
-     * @param _referrer Address of the referrer
-     */
-    function rentProduct(uint256 _productId, address _referrer) external payable {
+    function rentProduct(uint256 _productId, address _referrer) external payable nonReentrant {
         Product storage product = products[_productId];
         require(product.isForRent, "Product not for rent.");
         require(msg.value >= product.price, "Insufficient funds.");
         require(product.renter == address(0), "Product already rented.");
 
-        uint256 fee = (product.price * feePercentage) / 100;
-        uint256 amountToOwner = product.price - fee;
-
-        payable(product.owner).transfer(amountToOwner);
-        if (_referrer != address(0) && _referrer != msg.sender) {
-            referrals[_referrer]++;
-            payable(_referrer).transfer(referralBonus);
-        }
+        _handlePayment(product.owner, product.price, _referrer);
 
         product.renter = msg.sender;
         product.expirationTime = block.timestamp + product.expirationTime;
         product.isForRent = false;
 
-        emit ProductRented(
-            _productId,
-            msg.sender,
-            product.owner,
-            product.price,
-            product.expirationTime
-        );
+        emit ProductRented(_productId, msg.sender, product.owner, product.price, product.expirationTime);
     }
 
-    /**
-     * @dev Allows the admin to update the referral bonus
-     * @param _newReferralBonus The new referral bonus amount
-     */
+    function _handlePayment(address recipient, uint256 amount, address referrer) internal {
+        uint256 fee = (amount * feePercentage) / FEE_DENOMINATOR;
+        uint256 amountToRecipient = amount - fee;
+
+        payable(recipient).transfer(amountToRecipient);
+        if (referrer != address(0) && referrer != msg.sender) {
+            referrals[referrer]++;
+            payable(referrer).transfer(referralBonus);
+        }
+    }
+
     function updateReferralBonus(uint256 _newReferralBonus) external onlyAdmin {
         referralBonus = _newReferralBonus;
     }
 
-    /**
-     * @dev Allows the admin to update the minimum sale price
-     * @param _newMinSalePrice The new minimum sale price
-     */
     function updateMinSalePrice(uint256 _newMinSalePrice) external onlyAdmin {
         minSalePrice = _newMinSalePrice;
     }
 
-    /**
-     * @dev Allows the admin to update the minimum rent price
-     * @param _newMinRentPrice The new minimum rent price
-     */
     function updateMinRentPrice(uint256 _newMinRentPrice) external onlyAdmin {
         minRentPrice = _newMinRentPrice;
     }
 
-    /**
-     * @dev Allows the admin to update the fee percentage
-     * @param _newFeePercentage The new fee percentage
-     */
     function updateFeePercentage(uint256 _newFeePercentage) external onlyAdmin {
         feePercentage = _newFeePercentage;
     }
 
-    /**
-     * @dev Allows the admin to withdraw funds from the contract
-     */
     function withdrawFunds() external onlyAdmin {
         uint256 balance = address(this).balance;
         payable(msg.sender).transfer(balance);
