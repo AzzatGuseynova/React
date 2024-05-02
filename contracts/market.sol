@@ -7,7 +7,7 @@ import "@openzeppelin/contracts@4.9.3/security/ReentrancyGuard.sol";
 
 /**
  * @title Marketplace for ERC721 tokens
- * @dev Implements buying and renting of NFTs with ERC721 standard. Includes admin controls.
+ * @dev Implements buying and renting of NFTs with ERC721 standard. Includes admin controls and basic financial transactions.
  */
 contract Marketplace is ERC721, AccessControl, ReentrancyGuard {
     struct Product {
@@ -32,27 +32,9 @@ contract Marketplace is ERC721, AccessControl, ReentrancyGuard {
 
     mapping(address => uint256) public referrals;
 
-    event ProductAdded(
-        uint256 indexed productId,
-        address indexed owner,
-        string name,
-        uint256 price,
-        bool isForSale,
-        bool isForRent
-    );
-    event ProductSold(
-        uint256 indexed productId,
-        address indexed buyer,
-        address indexed seller,
-        uint256 price
-    );
-    event ProductRented(
-        uint256 indexed productId,
-        address indexed renter,
-        address indexed owner,
-        uint256 price,
-        uint256 expirationTime
-    );
+    event ProductAdded(uint256 indexed productId, address indexed owner, string name, uint256 price, bool isForSale, bool isForRent);
+    event ProductSold(uint256 indexed productId, address indexed buyer, address indexed seller, uint256 price);
+    event ProductRented(uint256 indexed productId, address indexed renter, address indexed owner, uint256 price, uint256 expirationTime);
 
     modifier onlyAdmin() {
         require(hasRole(ADMIN_ROLE, msg.sender), "Caller is not an admin");
@@ -77,10 +59,24 @@ contract Marketplace is ERC721, AccessControl, ReentrancyGuard {
         defaultExpirationTime = _defaultExpirationTime;
     }
 
+    /**
+     * @dev Overridden to support multiple interface formats.
+     * @param interfaceId ID of the interface to check.
+     * @return bool representing whether the interface is supported.
+     */
     function supportsInterface(bytes4 interfaceId) public view virtual override(ERC721, AccessControl) returns (bool) {
         return super.supportsInterface(interfaceId);
     }
 
+    /**
+     * @notice Adds a new product to the marketplace
+     * @dev Requires admin privileges. Mints a new NFT upon adding a product.
+     * @param _name Name of the product
+     * @param _price Price of the product
+     * @param _isForSale Flag indicating if the product is for sale
+     * @param _isForRent Flag indicating if the product is for rent
+     * @param _expirationTime Duration in seconds the product is available for rent
+     */
     function addProduct(
         string memory _name,
         uint256 _price,
@@ -106,6 +102,12 @@ contract Marketplace is ERC721, AccessControl, ReentrancyGuard {
         emit ProductAdded(newProductId, msg.sender, _name, _price, _isForSale, _isForRent);
     }
 
+    /**
+     * @notice Buys a product from the marketplace, transferring ownership to the buyer
+     * @dev Ensures the product is for sale and the sent value covers the price. Handles payments.
+     * @param _productId ID of the product to buy
+     * @param _referrer Address of the referrer (if any) to receive a bonus
+     */
     function buyProduct(uint256 _productId, address _referrer) external payable nonReentrant {
         Product storage product = products[_productId];
         require(product.isForSale, "Product not for sale.");
@@ -122,6 +124,12 @@ contract Marketplace is ERC721, AccessControl, ReentrancyGuard {
         emit ProductSold(_productId, msg.sender, product.owner, product.price);
     }
 
+    /**
+     * @notice Rents a product, assigning temporary possession to the renter
+     * @dev Ensures the product is for rent and the sent value covers the rent price. Resets rent status post transaction.
+     * @param _productId ID of the product to rent
+     * @param _referrer Address of the referrer (if any) to receive a bonus
+     */
     function rentProduct(uint256 _productId, address _referrer) external payable nonReentrant {
         Product storage product = products[_productId];
         require(product.isForRent, "Product not for rent.");
@@ -137,6 +145,12 @@ contract Marketplace is ERC721, AccessControl, ReentrancyGuard {
         emit ProductRented(_productId, msg.sender, product.owner, product.price, product.expirationTime);
     }
 
+    /**
+     * @dev Internal function to handle payment distribution and referral bonuses.
+     * @param recipient The address of the product seller.
+     * @param amount The transaction amount.
+     * @param referrer The address of the referrer, if any.
+     */
     function _handlePayment(address recipient, uint256 amount, address referrer) internal {
         uint256 fee = (amount * feePercentage) / FEE_DENOMINATOR;
         uint256 amountToRecipient = amount - fee;
