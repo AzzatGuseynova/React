@@ -8,6 +8,7 @@ import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 /**
  * @title Marketplace for ERC721 tokens
  * @dev Implements buying and renting of NFTs with ERC721 standard. Includes admin controls and basic financial transactions.
+ * @custom:dev-run-script /scripts/deploy_with_market.ts
  */
 contract Marketplace is ERC721, AccessControl, ReentrancyGuard {
     struct Product {
@@ -50,14 +51,13 @@ contract Marketplace is ERC721, AccessControl, ReentrancyGuard {
         uint256 _feePercentage,
         uint256 _defaultExpirationTime
     ) ERC721(name, symbol) {
-        _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
-        _setupRole(ADMIN_ROLE, msg.sender);
         referralBonus = _referralBonus;
         minSalePrice = _minSalePrice;
         minRentPrice = _minRentPrice;
         feePercentage = _feePercentage;
         defaultExpirationTime = _defaultExpirationTime;
     }
+
 
     /**
      * @dev Overridden to support multiple interface formats.
@@ -68,15 +68,15 @@ contract Marketplace is ERC721, AccessControl, ReentrancyGuard {
         return super.supportsInterface(interfaceId);
     }
 
-    /**
-     * @notice Adds a new product to the marketplace
-     * @dev Requires admin privileges. Mints a new NFT upon adding a product.
-     * @param _name Name of the product
-     * @param _price Price of the product
-     * @param _isForSale Flag indicating if the product is for sale
-     * @param _isForRent Flag indicating if the product is for rent
-     * @param _expirationTime Duration in seconds the product is available for rent
-     */
+    
+
+    /// @notice Adds a new product to the marketplace
+    /// @dev Mints a new NFT upon adding a product
+    /// @param _name Name of the product
+    /// @param _price Price of the product in wei
+    /// @param _isForSale Whether the product is for sale
+    /// @param _isForRent Whether the product is for rent
+    /// @param _expirationTime Duration in seconds the product is available for rent after being rented
     function addProduct(
         string memory _name,
         uint256 _price,
