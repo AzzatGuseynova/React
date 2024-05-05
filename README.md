@@ -13,3 +13,9 @@ contract_review_"IP automated licensing"_"React":
 https://docs.google.com/document/d/1BEF13Xyi32IOdHUM0Pg2dgIAUIRV3YqCmqcTF9Zg3q8/edit?usp=drivesdk
 
 Figma_"IP automated licensing"_"React": https://www.figma.com/file/Y3L9K26KmRovlnMVYn9UZc/React-%2F-Web3?type=design&node-id=45%3A6229&mode=design&t=vOhdrdAk91PKvyLF-1
+
+demo_page_catalog:
+https://codepen.io/-kew/pen/dyLxpwq
+
+demo_page_admin:
+https://codepen.io/-kew/pen/XWQvjqR
