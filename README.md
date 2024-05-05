@@ -19,3 +19,6 @@ https://codepen.io/-kew/pen/dyLxpwq
 
 demo_page_admin:
 https://codepen.io/-kew/pen/XWQvjqR
+
+Template_"IP automated licensing"_"React": 
+https://test.forwardfactory.ai/services/marketplace/description/1f7eb8e5-7e8e-4354-a172-e186a21b97d1
