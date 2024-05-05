@@ -98,7 +98,8 @@
         }
 
         .modal-body {
-            overflow: scroll;
+            overflow-y: scroll;
+            overflow-x: hidden;
             padding: 32px;
             position: relative;
         }
@@ -175,6 +176,7 @@
             line-height: 24px;
             letter-spacing: 0%;
             text-align: left;
+            background-color: transparent;
         }
 
 
@@ -619,12 +621,19 @@
         <h2 class="mb-4">Управление</h2>
         <h4 class="mb-2">Кошелек</h4>
         <div class="mb-4"></div>
-        <div class="mb-5 profile-info">
-            <p class="mb-1 profile-title">Данные кошелька</p>
-            <p class="profile-number">325432623 <i class="far fa-copy" style="cursor: pointer;"></i></p>
+        <div class="mb-5">
+            <div class="profile-info">
+                <p class="mb-1 profile-title">Данные кошелька</p>
+                <p class="profile-number">325432623 <i class="far fa-copy" style="cursor: pointer;"></i></p>
+            </div>
+
+
         </div>
 
         <h4 class="mb-4">NFT</h4>
+
+        <button class="btn btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#addNftModal" data-bs-toggle="modal"
+            data-bs-target="#nftModal">Добавить NFT</button>
 
         <div class="mb-3">
             <input type="text" id="searchInput" class="form-control" placeholder="Поиск" />
@@ -632,9 +641,9 @@
 
         <ul class="filters mb-4">
             <li class="active" data-status="all">Все (n)</li>
-            <li data-status="active">На продаже (1)</li>
-            <li data-status="passive">Приобретенные (3)</li>
-            <li data-status="selled">Проданные (1)</li>
+            <li data-status="active">На продаже (x)</li>
+            <li data-status="passive">Приобретенные (x)</li>
+            <li data-status="selled">Проданные (x)</li>
         </ul>
 
         <div id="gallery" class="row row-cols-1 row-cols-md-4 g-4">
@@ -782,6 +791,77 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary btn-home" data-bs-dismiss="modal" aria-label="Close">На
                         главную</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модалка создания NFT -->
+    <div class="modal fade" id="addNftModal" tabindex="-1" aria-labelledby="addNftModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <img src="https://via.placeholder.com/500x300" alt="NFT IMAGE">
+                <div class="modal-body">
+                    <div class="modal-header">
+                        <div>
+                            <h5 class="modal-title" id="nftModalLabel">Название NFT</h5>
+                            <input class="tag-text form-control" placeholder="Название NFT" />
+                        </div>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="content-body">
+                        <div class="modal-item mb-3">
+                            <div class="modal-subtitle">
+                                NFT
+                            </div>
+                            <div class="modal-tags">
+                                <div class="tag">
+                                    <p class="tag-title">Address</p>
+                                    <input class="tag-text form-control" placeholder="address" />
+                                </div>
+                                <div class="tag">
+                                    <p class="tag-title">ID</p>
+                                    <input class="tag-text form-control" placeholder="unit1234" />
+                                </div>
+                                <div class="tag">
+                                    <p class="tag-title">Seller</p>
+                                    <input class="tag-text form-control" placeholder="Seller" />
+                                </div>
+                                <div class="tag">
+                                    <p class="tag-title">ChainID</p>
+                                    <input class="tag-text form-control" placeholder="Chain name" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-item mb-3">
+                            <div class="modal-subtitle">
+                                Buy details
+                            </div>
+                            <div class="modal-tags">
+                                <div class="tag">
+                                    <p class="tag-title">Type</p>
+                                    <input class="tag-text form-control" placeholder="ETH" />
+                                </div>
+                                <div class="tag">
+                                    <p class="tag-title">Price</p>
+                                    <input class="tag-text form-control" placeholder="100" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-item mb-3">
+                            <div class="modal-subtitle">
+                                Buy details
+                            </div>
+                            <input class="tag-text form-control" placeholder="Описание" />
+                        </div>
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary card-btn btn-sell">Создать</button>
+                    </div>
                 </div>
             </div>
         </div>
