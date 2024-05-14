@@ -991,6 +991,58 @@
             renderModal(modal);
         }));
     </script>
+    <script>
+        // ERC721 and ERC165 functions
+        const abi = [
+"function supportsInterface(bytes4 interfaceId) public view virtual override(ERC721, AccessControl) returns (bool)",
+"function balanceOf(address owner) public view virtual returns (uint256)",
+"function ownerOf(uint256 tokenId) public view virtual returns (address)",
+"function tokenURI(uint256 tokenId) public view virtual returns (string memory)",
+"function approve(address to, uint256 tokenId) public virtual",
+"function getApproved(uint256 tokenId) public view virtual returns (address)",
+"function setApprovalForAll(address operator, bool approved) public virtual",
+"function isApprovedForAll(address owner, address operator) public view virtual returns (bool)",
+"function transferFrom(address from, address to, uint256 tokenId) public virtual",
+"function safeTransferFrom(address from, address to, uint256 tokenId) public",
+"function safeTransferFrom(address from, address to, uint256 tokenId, bytes calldata data) public virtual",
+
+// AccessControl functions
+"function hasRole(bytes32 role, address account) public view virtual returns (bool)",
+"function getRoleAdmin(bytes32 role) public view virtual returns (bytes32)",
+"function grantRole(bytes32 role, address account) public virtual",
+"function revokeRole(bytes32 role, address account) public virtual",
+"function renounceRole(bytes32 role, address callerConfirmation) public virtual",
+
+// Marketplace functions
+"function addProduct(string memory _name, uint256 _price, bool _isForSale, bool _isForRent, uint256 _expirationTime) external onlyAdmin",
+"function buyProduct(uint256 _productId, address _referrer) external payable nonReentrant",
+"function rentProduct(uint256 _productId, address _referrer) external payable nonReentrant",
+"function updateReferralBonus(uint256 _newReferralBonus) external onlyAdmin",
+"function updateMinSalePrice(uint256 _newMinSalePrice) external onlyAdmin",
+"function updateMinRentPrice(uint256 _newMinRentPrice) external onlyAdmin",
+"function updateFeePercentage(uint256 _newFeePercentage) external onlyAdmin",
+
+// Internal functions
+"function _handlePayment(address recipient, uint256 amount, address referrer) internal"];
+        let contractAddress;
+	const getAddress = async () => {
+	  contractAddress = document.getElementById("wallet_address").innerHTML;
+	};
+	console.log(contractAddress)
+	let provider;
+	let wallet;
+	let contract;
+	async function connectToContract() {
+	  provider = new ethers.providers.Web3Provider(this.parent.ethereum);
+	  wallet = provider.getSigner();
+	  contract = new ethers.Contract(contractAddress, abi, wallet);
+	}
+	setTimeout(() => {
+	  getAddress();
+	  connectToContract();
+	}
+			   , 2100);
+    </script>
 
     <script>
         //Авторизация
