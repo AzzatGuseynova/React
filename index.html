@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -17,7 +16,6 @@
             padding: 6px 12px;
             border-radius: 12px;
         }
-
 
         .card {
             border-radius: 15px;
@@ -55,11 +53,8 @@
         .card-img-top {
             margin-bottom: 20px;
             border-radius: 15px;
-            /* rounding the top corners to match the card */
             height: 300px;
-            /* fixed height, you might want to adjust this */
             object-fit: cover;
-            /* ensures the image covers the area without distortion */
         }
 
         .card {
@@ -73,13 +68,11 @@
         .modal-content {
             border-radius: 15px;
             border: none;
-            /* Removes border */
         }
 
         .modal-header,
         .modal-footer {
             border-bottom: none;
-            /* Removes footer/header border */
             border-top: none;
             padding: 0;
         }
@@ -128,26 +121,19 @@
         }
 
         .tag {
-            /* Card */
             position: static;
             max-width: 240px;
             height: 76px;
-            /* Автолейаут */
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
             align-items: flex-start;
             padding: 16px;
-
-
-            /* Inside Auto Layout */
             flex: none;
             order: 0;
             flex-grow: 0;
             margin: 0px;
-
             border: none;
-
             border-radius: 12px;
             background: rgb(232, 236, 244);
         }
@@ -157,28 +143,22 @@
         }
 
         .tag-title {
-            /* Body/Tiny */
             color: rgb(138, 151, 162);
             font-family: Inter;
             font-size: 14px;
             font-weight: 400;
             line-height: 20px;
-            letter-spacing: 0px;
             text-align: left;
         }
 
         .tag-text {
-            /* Body/Small */
             color: rgb(18, 18, 18);
             font-family: Inter;
             font-size: 16px;
             font-weight: 400;
             line-height: 24px;
-            letter-spacing: 0%;
             text-align: left;
         }
-
-
 
         .modal-title {
             font-size: 1.5em;
@@ -186,20 +166,17 @@
         }
 
         .modal-subtitle {
-            /* H/S */
             color: rgb(18, 18, 18);
             font-family: Montserrat;
             font-size: 20px;
             font-weight: 600;
             line-height: 24px;
-            letter-spacing: 0%;
             text-align: left;
             margin-bottom: 12px;
         }
 
         .modal-dialog {
             max-width: 800px;
-            /* Larger dialog */
         }
 
         .modal-footer {
@@ -211,12 +188,10 @@
             height: 56px;
             border-radius: 12px;
             border: none;
-
             font-family: Inter;
             font-size: 16px;
             font-weight: 600;
             line-height: 24px;
-            letter-spacing: 0px;
         }
 
         .btn-sell {
@@ -233,8 +208,6 @@
             color: rgb(232, 236, 244);
             background: rgb(22, 130, 229);
         }
-
-
 
         #logInModal .modal-dialog {
             max-width: 320px;
@@ -264,7 +237,6 @@
 
         #logInModal #loginInput {
             height: 56px;
-            /* Автолейаут */
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -279,20 +251,15 @@
         #logInModal .btn-login {
             width: 100%;
             height: 56px;
-            /* Автолейаут */
             display: flex;
             flex-direction: row;
             justify-content: center;
             align-items: center;
             padding: 0px;
-
-
-            /* Inside Auto Layout */
             flex: none;
             order: 1;
             align-self: stretch;
             flex-grow: 0;
-
             border-radius: 12px;
             background: rgb(22, 130, 229);
         }
@@ -300,33 +267,26 @@
         #logInModal .btn-login:disabled {
             width: 100%;
             height: 56px;
-            /* Автолейаут */
             display: flex;
             flex-direction: row;
             justify-content: center;
             align-items: center;
             padding: 0px;
-
-
-            /* Inside Auto Layout */
             flex: none;
             order: 1;
             align-self: stretch;
             flex-grow: 0;
-
             border-radius: 12px;
             background: rgb(232, 236, 244);
         }
 
         #logInModal p {
             margin-top: 4px;
-            /* Body/Tiny */
             color: rgb(213, 73, 28);
             font-family: Inter;
             font-size: 14px;
             font-weight: 400;
             line-height: 20px;
-            letter-spacing: 0px;
             text-align: left;
             margin-bottom: 0;
         }
@@ -366,7 +326,6 @@
             display: flex;
             justify-content: center;
             align-items: center;
-
             font-size: 16px;
         }
 
@@ -386,9 +345,6 @@
         #errorModal .modal-text {
             text-align: center;
         }
-
-
-        /* Успех */
 
         #sussefulModal .modal-dialog {
             max-width: 320px;
@@ -425,7 +381,6 @@
             display: flex;
             justify-content: center;
             align-items: center;
-
             font-size: 16px;
         }
 
@@ -452,39 +407,30 @@
             height: 56px;
         }
 
-
-        /* Коммент */
         .profile-info {
             height: 108px;
             padding: 24px;
             border-radius: 16px;
-
-            /* Def */
             box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.12);
             background: rgb(255, 255, 255);
-
             max-width: 209px;
         }
 
         .profile-info .profile-title {
-            /* Body/Small */
             color: rgb(138, 151, 162);
             font-family: Inter;
             font-size: 16px;
             font-weight: 400;
             line-height: 24px;
-            letter-spacing: 0%;
             text-align: left;
         }
 
         .profile-info .profile-number {
-            /* H/Medium */
             color: rgb(18, 18, 18);
             font-family: Montserrat;
             font-size: 24px;
             font-weight: 600;
             line-height: 32px;
-            letter-spacing: 0%;
             text-align: left;
         }
 
@@ -506,9 +452,6 @@
             font-size: 16px;
             font-weight: 400;
             line-height: 24px;
-            letter-spacing: 0%;
-
-            text-wrap: nowrap;
             display: flex;
             flex-direction: row;
             justify-content: center;
@@ -529,7 +472,6 @@
                 flex: 0 0 auto;
                 width: 50%;
             }
-
         }
 
         @media (min-width: 1000px) {
@@ -614,29 +556,28 @@
         <header class="d-flex justify-content-between align-items-center pt-3 pb-2 mb-3">
             <h3><a href="index.html">React</a></h3>
             <button class="btn btn-outline-primary" data-status="login" data-bs-toggle="modal"
-                data-bs-target="#logInModal">Войти</button>
+                data-bs-target="#logInModal">Login</button>
             <button class="btn-profile" data-status="profile" style="display: none;"
                 onclick="location.href='admin.html'">
                 <i class="fas fa-user">
                 </i>
             </button>
         </header>
-        <h2 class="mb-4" ondblclick="localStorage.clear()">Каталог</h2>
+        <h2 class="mb-4" ondblclick="localStorage.clear()">Catalog</h2>
         <div class="mb-3">
-            <input type="text" id="searchInput" class="form-control" placeholder="Поиск" />
+            <input type="text" id="searchInput" class="form-control" placeholder="Search" />
         </div>
         <div id="gallery" class="row row-cols-1 row-cols-md-3 g-4">
         </div>
     </div>
 
-    <!-- Modal --><!-- Modal -->
     <div class="modal fade" id="nftModal" tabindex="-1" aria-labelledby="nftModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <img src="https://via.placeholder.com/500x300" alt="NFT IMAGE">
                 <div class="modal-body">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="nftModalLabel">Название NFT</h5>
+                        <h5 class="modal-title" id="nftModalLabel">NFT Name</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="content-body">
@@ -685,17 +626,15 @@
                                 Buy details
                             </div>
                             <p>
-                                Название NFT Lorem ipsum dolor sit amet, consectetur adipiscing
+                                NFT Name Lorem ipsum dolor sit amet, consectetur adipiscing
                                 elit, sed do eiusmod tempor incididunt ut labore et dolore magna
                                 aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
                                 laboris nisi ut aliquip ex ea commodo consequat.
                             </p>
                         </div>
-
-
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary btn-buy">Купить</button>
+                        <button type="button" class="btn btn-primary btn-buy">Buy</button>
                     </div>
                 </div>
             </div>
@@ -706,22 +645,19 @@
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="logInModalLabel">Авторизация</h5>
+                    <h5 class="modal-title" id="logInModalLabel">Login</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="content-body">
-                    <input type="text" id="loginInput" class="form-control" placeholder="Номер кошелька" />
+                    <input type="text" id="loginInput" class="form-control" placeholder="Wallet Number" />
                     <p class="input-error" style="display: none;"></p>
                 </div>
                 <div class="modal-footer">
-                    <button disabled type="button" class="btn btn-primary btn-login">Войти</button>
+                    <button disabled type="button" class="btn btn-primary btn-login">Login</button>
                 </div>
             </div>
         </div>
     </div>
-
-
-    <!--  КНОПКИ ДЛЯ ОТРАБАТЫВАНИЯ МОДАЛЬНЫХ ОКОН -->
 
     <div class="invisible-buttons" style="display: none;">
         <button class="btn-error" data-bs-toggle="modal" data-bs-target="#errorModal"></button>
@@ -739,14 +675,14 @@
                         <i class="fas fa-times" style="font-size: 20px; color: rgb(244, 87, 37)"></i>
                     </div>
                     <div>
-                        <p class="modal-title">Ошибка</p>
-                        <p class="modal-text">При покупке возникла техническая ошибка. Чтобы ее исправить, обратитесь
-                            в поддержку вашего кошелька</p>
+                        <p class="modal-title">Error</p>
+                        <p class="modal-text">There was a technical error during the purchase. To fix it, contact your
+                            wallet support.</p>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary btn-home" data-bs-dismiss="modal" aria-label="Close">На
-                        главную</button>
+                    <button type="button" class="btn btn-primary btn-home" data-bs-dismiss="modal"
+                        aria-label="Close">Home</button>
                 </div>
             </div>
         </div>
@@ -763,45 +699,40 @@
                         <i class="fas fa-check" style="font-size: 20px; color: rgb(74, 201, 155)"></i>
                     </div>
                     <div>
-                        <p class="modal-title">Успех</p>
-                        <p class="modal-text">Покупка прошла успешно. На кошелек начисляются бонусы</p>
+                        <p class="modal-title">Success</p>
+                        <p class="modal-text">The purchase was successful. Bonuses are being credited to the wallet.</p>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary btn-home" data-bs-dismiss="modal" aria-label="Close">На
-                        главную</button>
+                    <button type="button" class="btn btn-primary btn-home" data-bs-dismiss="modal"
+                        aria-label="Close">Home</button>
                 </div>
             </div>
         </div>
     </div>
 
-
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-
-        // Успех и неудача покупки (клик для открытия соответсвующей модалки)
+        // Purchase success and failure (click to open the corresponding modal)
         const btnSusseful = document.querySelector(".btn-susseful");
         const btnError = document.querySelector(".btn-error");
-
     </script>
     <script>
-
         window.addEventListener('load', function () {
             if (typeof window.ethereum !== 'undefined') {
                 const web3 = new Web3(window.ethereum);
                 const marketplace = new web3.eth.Contract(abi, contractAddress);
                 loadProducts(marketplace);
             } else {
-                console.log('Необходимо установить MetaMask!');
+                console.log('MetaMask needs to be installed!');
                 loadDemoProducts();
             }
         });
 
-        async function loadProducts (marketplace) {
+        async function loadProducts(marketplace) {
             const productCount = await marketplace.methods.products.length().call();
             const container = document.getElementById('product-container');
-            container.innerHTML = ''; // Очистить контейнер
+            container.innerHTML = ''; // Clear container
 
             for (let i = 0; i < productCount; i++) {
                 const product = await marketplace.methods.products(i).call();
@@ -811,7 +742,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">${product.name}</h5>
                                 <p class="card-text">${product.price} ETH</p>
-                                <button class="btn btn-primary" onclick="buyProduct(${i})">Купить</button>
+                                <button class="btn btn-primary" onclick="buyProduct(${i})">Buy</button>
                             </div>
                         </div>
                     </div>`;
@@ -819,31 +750,29 @@
             }
         }
 
-        async function buyProduct (productId) {
+        async function buyProduct(productId) {
             const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
             const account = accounts[0];
             const product = await marketplace.methods.products(productId).call();
             marketplace.methods.buyProduct(productId).send({ from: account, value: product.price })
                 .then(function (receipt) {
-                    console.log('Покупка совершена:', receipt);
+                    console.log('Purchase made:', receipt);
                 });
         }
 
-        // Получение значения параметра 'refcode' из URL
-        function getRefCode () {
+        // Getting the value of the 'refcode' parameter from the URL
+        function getRefCode() {
             const params = new URLSearchParams(window.location.search);
             return params.get('refcode');
         }
 
-        // Вызов функции и вывод результата
+        // Call the function and output the result
         const refCode = getRefCode();
         console.log(refCode);
-
     </script>
 
     <script>
-
-        // Инициализация и рендер галлереи
+        // Initializing and rendering the gallery
         const nftData = [
             { title: "NFT 1", imageUrl: "https://via.placeholder.com/150", address: "address", id: "unit1234", seller: "address", chainid: "chain name", type: "ETH", price: "unit1234", status: 'buy' },
             { title: "NFT 2", imageUrl: "https://via.placeholder.com/150", address: "address", id: "unit1234", seller: "address", chainid: "chain name", type: "ETH", price: "unit1234", status: 'buy' },
@@ -853,8 +782,7 @@
 
         let lastRandom = false;
 
-        function randomClick () {
-
+        function randomClick() {
             if (lastRandom == false) {
                 btnSusseful.click();
                 lastRandom = true;
@@ -863,22 +791,21 @@
                 lastRandom = false;
                 btnError.click();
             };
-
             return;
         }
 
         // Function to render NFT cards
-        function renderGallery (nftArray) {
+        function renderGallery(nftArray) {
             const galleryElement = document.getElementById("gallery");
             galleryElement.innerHTML = "";
 
             if (nftArray.length === 0) {
-                galleryElement.innerHTML = "<p class='mt-4'>Ничего не найдено</p>";
+                galleryElement.innerHTML = "<p class='mt-4'>Nothing found</p>";
             }
 
             nftArray.forEach(nft => {
                 const btnType = "btn-buy";
-                const btnText = "Купить";
+                const btnText = "Buy";
                 const card = `
                     <div class="col" data-bs-toggle="modal" data-bs-target="#nftModal">
                             <div class="card h-100">
@@ -897,13 +824,10 @@
                     `;
                 galleryElement.innerHTML += card;
             });
-
-
         }
 
-
         // Function to filter NFTs based on search input
-        function filterNFTs (query) {
+        function filterNFTs(query) {
             const filteredNFTs = nftData.filter(nft => nft.title.toLowerCase().includes(query.toLowerCase()));
             renderGallery(filteredNFTs);
         }
@@ -913,16 +837,15 @@
             filterNFTs(event.target.value);
         });
 
-
         // Initial rendering of gallery
         if (!document.getElementById("gallery").textContent.trim()) renderGallery(nftData);
     </script>
 
     <script>
-        // Отрисовка модального окна выбранной nft
-        console.log(document.querySelectorAll(".col").length, "Кол-во записей");
+        // Rendering the modal window of the selected NFT
+        console.log(document.querySelectorAll(".col").length, "Number of records");
 
-        async function renderModal (modal) {
+        async function renderModal(modal) {
             oldModal = document.querySelector("#nftModal");
             oldModal.innerHTML = modal;
         }
@@ -933,7 +856,7 @@
             let selectedNft = nftData.filter(nft => nft.id == cardId && nft.title == cardTitle)[0];
 
             const btnType = "btn-buy";
-            const btnText = "Купить";
+            const btnText = "Buy";
             console.log(selectedNft);
 
             let modal = `
@@ -1003,8 +926,6 @@
                                         laboris nisi ut aliquip ex ea commodo consequat.
                                     </p>
                                 </div>
-
-
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-primary card-btn ${btnType}" onclick = "randomClick()">${btnText}</button>
@@ -1031,15 +952,11 @@
             "function transferFrom(address from, address to, uint256 tokenId) public virtual",
             "function safeTransferFrom(address from, address to, uint256 tokenId) public",
             "function safeTransferFrom(address from, address to, uint256 tokenId, bytes calldata data) public virtual",
-
-            // AccessControl functions
             "function hasRole(bytes32 role, address account) public view virtual returns (bool)",
             "function getRoleAdmin(bytes32 role) public view virtual returns (bytes32)",
             "function grantRole(bytes32 role, address account) public virtual",
             "function revokeRole(bytes32 role, address account) public virtual",
             "function renounceRole(bytes32 role, address callerConfirmation) public virtual",
-
-            // Marketplace functions
             "function addProduct(string memory _name, uint256 _price, bool _isForSale, bool _isForRent, uint256 _expirationTime) external onlyAdmin",
             "function buyProduct(uint256 _productId, address _referrer) external payable nonReentrant",
             "function rentProduct(uint256 _productId, address _referrer) external payable nonReentrant",
@@ -1047,8 +964,6 @@
             "function updateMinSalePrice(uint256 _newMinSalePrice) external onlyAdmin",
             "function updateMinRentPrice(uint256 _newMinRentPrice) external onlyAdmin",
             "function updateFeePercentage(uint256 _newFeePercentage) external onlyAdmin",
-
-            // Internal functions
             "function _handlePayment(address recipient, uint256 amount, address referrer) internal"];
         let contractAddress;
         const getAddress = async () => {
@@ -1058,7 +973,7 @@
         let provider;
         let wallet;
         let contract;
-        async function connectToContract () {
+        async function connectToContract() {
             provider = new ethers.providers.Web3Provider(this.parent.ethereum);
             wallet = provider.getSigner();
             contract = new ethers.Contract(contractAddress, abi, wallet);
@@ -1066,14 +981,13 @@
         setTimeout(() => {
             getAddress();
             connectToContract();
-        }
-            , 2100);
+        }, 2100);
     </script>
 
     <script>
-        //Авторизация
+        //Authorization
 
-        // Активация кнопки авторизации
+        // Activating the login button
         const loginInput = document.querySelector("#loginInput");
         const loginButton = document.querySelector(".btn-login");
         loginInput.addEventListener('input', (event) => {
@@ -1085,7 +999,7 @@
                 if (!Number(event.target.value)) {
                     loginInput.classList.add('error');
                     inputError.style.display = 'block';
-                    inputError.textContent = 'Неверный формат номера. Номер должен содержать цифры';
+                    inputError.textContent = 'Invalid format. The number should contain digits';
                     loginButton.disabled = true;
                 }
 
@@ -1103,11 +1017,10 @@
             }
         });
 
-
         loginButton.addEventListener('click', (event) => {
             event.preventDefault();
             if (loginInput.classList.value.includes('error')) {
-                console.log('Ошибка есть');
+                console.log('Error present');
                 btnError.click();
             }
             else {
@@ -1120,13 +1033,13 @@
     <script>
         window.addEventListener('load', function () {
             if (localStorage.getItem('auth') == 'true') {
-                console.log('Пользователь авторизован');
+                console.log('User is logged in');
                 const btns = document.querySelector('header').querySelectorAll('button');
                 btns[0].style.display = 'none';
                 btns[1].style.display = 'block';
             }
             else {
-                console.log('Пользователь не авторизован');
+                console.log('User is not logged in');
                 const btns = document.querySelector('header').querySelectorAll('button');
                 btns[0].style.display = 'block';
                 btns[1].style.display = 'none';
@@ -1135,4 +1048,4 @@
     </script>
 </body>
 
-</html>;
+</html>
