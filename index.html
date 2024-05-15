@@ -98,7 +98,8 @@
         }
 
         .modal-body {
-            overflow: scroll;
+            overflow-y: scroll;
+            overflow-x: hidden;
             padding: 32px;
             position: relative;
         }
@@ -600,19 +601,27 @@
                 max-width: 100%;
             }
         }
+
+        a {
+            text-decoration: none;
+            color: black
+        }
     </style>
 </head>
 
 <body>
     <div class="container">
         <header class="d-flex justify-content-between align-items-center pt-3 pb-2 mb-3">
-            <h3>React</h3>
+            <h3><a href="index.html">React</a></h3>
             <button class="btn btn-outline-primary" data-status="login" data-bs-toggle="modal"
                 data-bs-target="#logInModal">Войти</button>
-            <button class="btn-profile" data-status="profile" style="display: none;"><i class="fas fa-user">
-                </i></button>
+            <button class="btn-profile" data-status="profile" style="display: none;"
+                onclick="location.href='admin.html'">
+                <i class="fas fa-user">
+                </i>
+            </button>
         </header>
-        <h2 class="mb-4">Каталог</h2>
+        <h2 class="mb-4" ondblclick="localStorage.clear()">Каталог</h2>
         <div class="mb-3">
             <input type="text" id="searchInput" class="form-control" placeholder="Поиск" />
         </div>
@@ -838,11 +847,27 @@
 
         // Инициализация и рендер галлереи
         const nftData = [
-            { title: "NFT 1", imageUrl: "https://via.placeholder.com/150", address: "address", id: "unit1234", seller: "address", chainid: "chain name", type: "ETH", price: "unit1234", status: 'active' },
-            { title: "NFT 2", imageUrl: "https://via.placeholder.com/150", address: "address", id: "unit1234", seller: "address", chainid: "chain name", type: "ETH", price: "unit1234", status: 'selled' },
-            { title: "NFT 3", imageUrl: "https://via.placeholder.com/150", address: "address", id: "unit1234", seller: "address", chainid: "chain name", type: "ETH", price: "unit1234", status: 'passive' },
-            { title: "NFT 4", imageUrl: "https://via.placeholder.com/150", address: "address", id: "unit1234", seller: "address", chainid: "chain name", type: "ETH", price: "unit1234", status: 'passive' }
+            { title: "NFT 1", imageUrl: "https://via.placeholder.com/150", address: "address", id: "unit1234", seller: "address", chainid: "chain name", type: "ETH", price: "unit1234", status: 'buy' },
+            { title: "NFT 2", imageUrl: "https://via.placeholder.com/150", address: "address", id: "unit1234", seller: "address", chainid: "chain name", type: "ETH", price: "unit1234", status: 'buy' },
+            { title: "NFT 3", imageUrl: "https://via.placeholder.com/150", address: "address", id: "unit1234", seller: "address", chainid: "chain name", type: "ETH", price: "unit1234", status: 'buy' },
+            { title: "NFT 4", imageUrl: "https://via.placeholder.com/150", address: "address", id: "unit1234", seller: "address", chainid: "chain name", type: "ETH", price: "unit1234", status: 'buy' }
         ];
+
+        let lastRandom = false;
+
+        function randomClick () {
+
+            if (lastRandom == false) {
+                btnSusseful.click();
+                lastRandom = true;
+            }
+            else {
+                lastRandom = false;
+                btnError.click();
+            };
+
+            return;
+        }
 
         // Function to render NFT cards
         function renderGallery (nftArray) {
@@ -850,12 +875,12 @@
             galleryElement.innerHTML = "";
 
             if (nftArray.length === 0) {
-                galleryElement.innerHTML = "Ничего не найдено";
+                galleryElement.innerHTML = "<p class='mt-4'>Ничего не найдено</p>";
             }
 
             nftArray.forEach(nft => {
-                const btnType = nft.status === 'active' ? 'btn-stopsell' : nft.status === 'selled' ? 'btn-selled' : 'btn-sell';
-                const btnText = btnType === "btn-stopsell" ? "Снять с продажи" : btnType === 'btn-selled' ? "Продано" : "Продать";
+                const btnType = "btn-buy";
+                const btnText = "Купить";
                 const card = `
                     <div class="col" data-bs-toggle="modal" data-bs-target="#nftModal">
                             <div class="card h-100">
@@ -874,6 +899,7 @@
                     `;
                 galleryElement.innerHTML += card;
             });
+
 
         }
 
@@ -898,7 +924,7 @@
         // Отрисовка модального окна выбранной nft
         console.log(document.querySelectorAll(".col").length, "Кол-во записей");
 
-        function renderModal (modal) {
+        async function renderModal (modal) {
             oldModal = document.querySelector("#nftModal");
             oldModal.innerHTML = modal;
         }
@@ -907,8 +933,9 @@
             let cardId = card.querySelector(".card-id").textContent;
             let cardTitle = card.querySelector(".card-title").textContent;
             let selectedNft = nftData.filter(nft => nft.id == cardId && nft.title == cardTitle)[0];
-            const btnType = selectedNft.status === 'active' ? 'btn-stopsell' : selectedNft.status === 'selled' ? 'btn-selled' : 'btn-sell';
-            const btnText = btnType === "btn-stopsell" ? "Снять с продажи" : btnType === 'btn-selled' ? "Продано" : "Продать";
+
+            const btnType = "btn-buy";
+            const btnText = "Купить";
             console.log(selectedNft);
 
             let modal = `
@@ -982,7 +1009,7 @@
 
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-primary card-btn ${btnType}">${btnText}</button>
+                                <button type="button" class="btn btn-primary card-btn ${btnType}" onclick = "randomClick()">${btnText}</button>
                             </div>
                         </div>
                     </div>
@@ -990,58 +1017,6 @@
                 `;
             renderModal(modal);
         }));
-    </script>
-    <script>
-        // ERC721 and ERC165 functions
-        const abi = [
-"function supportsInterface(bytes4 interfaceId) public view virtual override(ERC721, AccessControl) returns (bool)",
-"function balanceOf(address owner) public view virtual returns (uint256)",
-"function ownerOf(uint256 tokenId) public view virtual returns (address)",
-"function tokenURI(uint256 tokenId) public view virtual returns (string memory)",
-"function approve(address to, uint256 tokenId) public virtual",
-"function getApproved(uint256 tokenId) public view virtual returns (address)",
-"function setApprovalForAll(address operator, bool approved) public virtual",
-"function isApprovedForAll(address owner, address operator) public view virtual returns (bool)",
-"function transferFrom(address from, address to, uint256 tokenId) public virtual",
-"function safeTransferFrom(address from, address to, uint256 tokenId) public",
-"function safeTransferFrom(address from, address to, uint256 tokenId, bytes calldata data) public virtual",
-
-// AccessControl functions
-"function hasRole(bytes32 role, address account) public view virtual returns (bool)",
-"function getRoleAdmin(bytes32 role) public view virtual returns (bytes32)",
-"function grantRole(bytes32 role, address account) public virtual",
-"function revokeRole(bytes32 role, address account) public virtual",
-"function renounceRole(bytes32 role, address callerConfirmation) public virtual",
-
-// Marketplace functions
-"function addProduct(string memory _name, uint256 _price, bool _isForSale, bool _isForRent, uint256 _expirationTime) external onlyAdmin",
-"function buyProduct(uint256 _productId, address _referrer) external payable nonReentrant",
-"function rentProduct(uint256 _productId, address _referrer) external payable nonReentrant",
-"function updateReferralBonus(uint256 _newReferralBonus) external onlyAdmin",
-"function updateMinSalePrice(uint256 _newMinSalePrice) external onlyAdmin",
-"function updateMinRentPrice(uint256 _newMinRentPrice) external onlyAdmin",
-"function updateFeePercentage(uint256 _newFeePercentage) external onlyAdmin",
-
-// Internal functions
-"function _handlePayment(address recipient, uint256 amount, address referrer) internal"];
-        let contractAddress;
-	const getAddress = async () => {
-	  contractAddress = document.getElementById("wallet_address").innerHTML;
-	};
-	console.log(contractAddress)
-	let provider;
-	let wallet;
-	let contract;
-	async function connectToContract() {
-	  provider = new ethers.providers.Web3Provider(this.parent.ethereum);
-	  wallet = provider.getSigner();
-	  contract = new ethers.Contract(contractAddress, abi, wallet);
-	}
-	setTimeout(() => {
-	  getAddress();
-	  connectToContract();
-	}
-			   , 2100);
     </script>
 
     <script>
@@ -1060,6 +1035,7 @@
                     loginInput.classList.add('error');
                     inputError.style.display = 'block';
                     inputError.textContent = 'Неверный формат номера. Номер должен содержать цифры';
+                    loginButton.disabled = true;
                 }
 
                 else {
@@ -1077,8 +1053,34 @@
         });
 
 
+        loginButton.addEventListener('click', (event) => {
+            event.preventDefault();
+            if (loginInput.classList.value.includes('error')) {
+                console.log('Ошибка есть');
+                btnError.click();
+            }
+            else {
+                localStorage.setItem('auth', 'true');
+                window.location = "admin.html?refcode=" + getRefCode();
+            }
+        })
+    </script>
 
-
+    <script>
+        window.addEventListener('load', function () {
+            if (localStorage.getItem('auth') == 'true') {
+                console.log('Пользователь авторизован');
+                const btns = document.querySelector('header').querySelectorAll('button');
+                btns[0].style.display = 'none';
+                btns[1].style.display = 'block';
+            }
+            else {
+                console.log('Пользователь не авторизован');
+                const btns = document.querySelector('header').querySelectorAll('button');
+                btns[0].style.display = 'block';
+                btns[1].style.display = 'none';
+            }
+        })
     </script>
 </body>
 
