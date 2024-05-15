@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css">
+    <style>
+        body {
+            background-color: #e8ecf4;
+        }
+
+        #searchInput {
+            height: 56px;
+            padding: 6px 12px;
+            border-radius: 12px;
+        }
+
+        .card {
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+        }
+
+        .container {
+            padding-top: 20px;
+        }
+
+        .btn-profile {
+            font-size: 16px;
+            padding: 16px;
+            border-radius: 12px;
+            background: rgb(22, 130, 229);
+            width: 56px;
+            height: 56px;
+            border: none;
+            transition: linear 0.1s;
+        }
+
+        .btn-profile:hover {
+            scale: 1.1;
+        }
+
+        .btn-profile i {
+            height: 16px;
+            width: 16px;
+        }
+
+        .card-img-top {
+            margin-bottom: 20px;
+            border-radius: 15px;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .card {
+            padding: 16px;
+        }
+
+        .card-body {
+            padding: 0px;
+        }
+
+        .modal-content {
+            border-radius: 15px;
+            border: none;
+        }
+
+        .modal-header,
+        .modal-footer {
+            border-bottom: none;
+            border-top: none;
+            padding: 0;
+        }
+
+        .modal-header {
+            margin-bottom: 32px;
+        }
+
+        .modal-header .btn-close {
+            padding: 0;
+            height: 64px;
+            width: 64px;
+            position: relative;
+            top: -32px;
+            right: -32px;
+        }
+
+        .modal-body {
+            overflow-y: scroll;
+            overflow-x: hidden;
+            padding: 32px;
+            position: relative;
+        }
+
+        .modal-footer {
+            position: sticky;
+            background-color: white;
+        }
+
+        .modal-content {
+            display: flex;
+            flex-direction: row;
+            max-height: 640px;
+        }
+
+        .modal-content img {
+            max-width: 50%;
+            border-top-left-radius: 15px;
+            border-bottom-left-radius: 15px;
+        }
+
+        .modal-tags {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .tag {
+            position: static;
+            max-width: 240px;
+            height: 76px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            padding: 16px;
+            flex: none;
+            order: 0;
+            flex-grow: 0;
+            margin: 0px;
+            border: none;
+            border-radius: 12px;
+            background: rgb(232, 236, 244);
+        }
+
+        .tag p {
+            margin-bottom: 0;
+        }
+
+        .tag-title {
+            color: rgb(138, 151, 162);
+            font-family: Inter;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 20px;
+            text-align: left;
+        }
+
+        .tag-text {
+            color: rgb(18, 18, 18);
+            font-family: Inter;
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 24px;
+            text-align: left;
+            background-color: transparent;
+        }
+
+        .modal-title {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .modal-subtitle {
+            color: rgb(18, 18, 18);
+            font-family: Montserrat;
+            font-size: 20px;
+            font-weight: 600;
+            line-height: 24px;
+            text-align: left;
+            margin-bottom: 12px;
+        }
+
+        .modal-dialog {
+            max-width: 800px;
+        }
+
+        .modal-footer {
+            width: 100%;
+        }
+
+        .card-btn {
+            width: 100%;
+            height: 56px;
+            border-radius: 12px;
+            border: none;
+            font-family: Inter;
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 24px;
+        }
+
+        .btn-sell {
+            background: rgb(232, 236, 244);
+            color: rgb(22, 130, 229);
+        }
+
+        .btn-selled {
+            color: rgb(138, 151, 162);
+            background: rgb(232, 236, 244);
+        }
+
+        .btn-stopsell {
+            color: rgb(232, 236, 244);
+            background: rgb(22, 130, 229);
+        }
+
+        #logInModal .modal-dialog {
+            max-width: 320px;
+        }
+
+        #logInModal .modal-content {
+            display: flex;
+            flex-direction: column;
+            padding: 32px;
+        }
+
+        #logInModal .modal-header {
+            margin-bottom: 24px;
+        }
+
+        #logInModal .modal-body {
+            margin-bottom: 12px;
+        }
+
+        #logInModal .modal-footer {
+            margin-top: 12px;
+        }
+
+        #logInModal .modal-footer>* {
+            margin-top: 0;
+        }
+
+        #logInModal #loginInput {
+            height: 56px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 6px 8px 6px 12px;
+        }
+
+        #logInModal .error {
+            border: 1px solid rgb(213, 73, 28);
+        }
+
+        #logInModal .btn-login {
+            width: 100%;
+            height: 56px;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            padding: 0px;
+            flex: none;
+            order: 1;
+            align-self: stretch;
+            flex-grow: 0;
+            border-radius: 12px;
+            background: rgb(22, 130, 229);
+        }
+
+        #logInModal .btn-login:disabled {
+            width: 100%;
+            height: 56px;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            padding: 0px;
+            flex: none;
+            order: 1;
+            align-self: stretch;
+            flex-grow: 0;
+            border-radius: 12px;
+            background: rgb(232, 236, 244);
+        }
+
+        #logInModal p {
+            margin-top: 4px;
+            color: rgb(213, 73, 28);
+            font-family: Inter;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 20px;
+            text-align: left;
+            margin-bottom: 0;
+        }
+
+        #errorModal .modal-dialog {
+            max-width: 320px;
+        }
+
+        #errorModal .modal-content {
+            display: flex;
+            flex-direction: column;
+            padding: 0 32px 32px 32px;
+        }
+
+        #errorModal .modal-header {
+            margin-bottom: 0;
+        }
+
+        #errorModal .btn-close {
+            position: relative;
+            right: -32px;
+            top: 0px;
+        }
+
+        #errorModal .content-body {
+            margin-top: -12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #errorModal .cross-wrapper {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: rgba(244, 87, 37, 0.12);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
+        }
+
+        #errorModal img {
+            border-radius: 0;
+        }
+
+        #errorModal .modal-title {
+            margin-bottom: 12px;
+        }
+
+        #errorModal .modal-text {
+            margin-bottom: 24px;
+        }
+
+        #errorModal .modal-title,
+        #errorModal .modal-text {
+            text-align: center;
+        }
+
+        #sussefulModal .modal-dialog {
+            max-width: 320px;
+        }
+
+        #sussefulModal .modal-content {
+            display: flex;
+            flex-direction: column;
+            padding: 0 32px 32px 32px;
+        }
+
+        #sussefulModal .modal-header {
+            margin-bottom: 0;
+        }
+
+        #sussefulModal .btn-close {
+            position: relative;
+            right: -32px;
+            top: 0px;
+        }
+
+        #sussefulModal .content-body {
+            margin-top: -12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #sussefulModal .check-wrapper {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: rgba(74, 201, 155, 0.12);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
+        }
+
+        #sussefulModal img {
+            border-radius: 0;
+        }
+
+        #sussefulModal .modal-title {
+            margin-bottom: 12px;
+        }
+
+        #sussefulModal .modal-text {
+            margin-bottom: 24px;
+        }
+
+        #sussefulModal .modal-title,
+        #sussefulModal .modal-text {
+            text-align: center;
+        }
+
+        #sussefulModal .btn-home,
+        #errorModal .btn-home {
+            width: 100%;
+            height: 56px;
+        }
+
+        .profile-info {
+            height: 108px;
+            padding: 24px;
+            border-radius: 16px;
+            box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.12);
+            background: rgb(255, 255, 255);
+            max-width: 209px;
+        }
+
+        .profile-info .profile-title {
+            color: rgb(138, 151, 162);
+            font-family: Inter;
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 24px;
+            text-align: left;
+        }
+
+        .profile-info .profile-number {
+            color: rgb(18, 18, 18);
+            font-family: Montserrat;
+            font-size: 24px;
+            font-weight: 600;
+            line-height: 32px;
+            text-align: left;
+        }
+
+        ul {
+            list-style: none;
+            display: flex;
+            gap: 8px;
+        }
+
+        .filters {
+            padding-left: 0;
+            flex-wrap: wrap;
+        }
+
+        .filters li {
+            height: 48px;
+            color: rgb(138, 151, 162);
+            font-family: Inter;
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 24px;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+            border-radius: 32px;
+            background: rgb(219, 225, 237);
+        }
+
+        .filters .active {
+            color: rgb(18, 18, 18);
+            box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.12);
+            background: rgb(255, 255, 255);
+        }
+
+        @media (min-width: 769px) {
+            .row-cols-md-4>* {
+                flex: 0 0 auto;
+                width: 50%;
+            }
+        }
+
+        @media (min-width: 1000px) {
+            .row-cols-md-4>* {
+                flex: 0 0 auto;
+                width: 33.33%;
+            }
+        }
+
+        @media (min-width: 1400px) {
+            .row-cols-md-4>* {
+                flex: 0 0 auto;
+                width: 25%;
+            }
+        }
+
+        .mobile {
+            display: none;
+        }
+
+        @media (max-width: 800px) {
+            .desktop {
+                display: none;
+            }
+
+            .mobile {
+                display: flex;
+            }
+
+            .modal-header .btn-close {
+                top: 0;
+                right: 0;
+            }
+
+            #nftModal .modal-body {
+                padding: 0;
+            }
+
+            #nftModal .modal-content {
+                display: flex;
+                flex-direction: column;
+                padding: 16px;
+            }
+
+            .modal-content img {
+                max-width: 100%;
+                border-radius: 15px;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .modal-content {
+                overflow-y: scroll;
+            }
+
+            .modal-body {
+                overflow: visible;
+            }
+
+            .content-body {
+                margin-top: 24px;
+            }
+
+            .modal-tags {
+                grid-template-columns: 1fr;
+            }
+
+            .tag {
+                max-width: 100%;
+            }
+        }
+
+        a {
+            text-decoration: none;
+            color: black
+        }
+    </style>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <header class="d-flex justify-content-between align-items-center pt-3 pb-2 mb-3">
+
+            <h3><a href="index.html">React</a></h3>
+            <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#logInModal"
+                style="display: none;">Sign In</button>
+
+            <button class="btn-profile" data-status="profile" style="display: block;"
+                onclick="location.href='admin.html'"><i class="fas fa-user"></i></button>
+        </header>
+        <h2 class="mb-4">Control panel</h2>
+        <h4 class="mb-2">Wallet</h4>
+        <div class="mb-4"></div>
+        <div class="mb-5">
+            <div class="profile-info">
+                <p class="mb-1 profile-title">Wallet details</p>
+                <p class="profile-number">myAddr <i class="far fa-copy" style="cursor: pointer;"
+                        onclick="copyToClipboard(document.querySelector('.profile-number').textContent.trim())"></i></p>
+            </div>
+            <script>
+                function copyToClipboard(text) {
+                    navigator.clipboard.writeText(text);
+                }
+            </script>
+
+        </div>
+
+        <h4 class="mb-4">NFT</h4>
+
+        <button class="btn btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#addNftModal">Add NFT</button>
+
+        <div class="mb-3">
+            <input type="text" id="searchInput" class="form-control" placeholder="Search" />
+        </div>
+
+        <ul class="filters mb-4">
+            <li class="active" data-status="all">All (n)</li>
+            <li data-status="active">On sale (x)</li>
+            <li data-status="passive">Purchased (x)</li>
+            <li data-status="selled">Sold (x)</li>
+        </ul>
+
+        <div id="gallery" class="row row-cols-1 row-cols-md-4 g-4">
+            All NFT 
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="nftModal" tabindex="-1" aria-labelledby="nftModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <img src="https://via.placeholder.com/500x300" alt="NFT IMAGE">
+                <div class="modal-body">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="nftModalLabel">NFT Name</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="content-body">
+                        <div class="modal-item mb-3">
+                            <div class="modal-subtitle">
+                                NFT
+                            </div>
+                            <div class="modal-tags">
+                                <div class="tag">
+                                    <p class="tag-title">Address</p>
+                                    <p class="tag-text">address</p>
+                                </div>
+                                <div class="tag">
+                                    <p class="tag-title">ID</p>
+                                    <p class="tag-text">unit1234</p>
+                                </div>
+                                <div class="tag">
+                                    <p class="tag-title">Seller</p>
+                                    <p class="tag-text">address</p>
+                                </div>
+                                <div class="tag">
+                                    <p class="tag-title">ChainID</p>
+                                    <p class="tag-text">chain name</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-item mb-3">
+                            <div class="modal-subtitle">
+                                Buy details
+                            </div>
+                            <div class="modal-tags">
+                                <div class="tag">
+                                    <p class="tag-title">Type</p>
+                                    <p class="tag-text">ETH</p>
+                                </div>
+                                <div class="tag">
+                                    <p class="tag-title">Price</p>
+                                    <p class="tag-text">unit1234</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-item mb-3">
+                            <div class="modal-subtitle">
+                                Buy details
+                            </div>
+                            <p>
+                                NFT Name Lorem ipsum dolor sit amet, consectetur adipiscing
+                                elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+                                aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                                laboris nisi ut aliquip ex ea commodo consequat.
+                            </p>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary card-btn btn-sell">Sell</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="logInModal" tabindex="-1" aria-labelledby="logInModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="logInModalLabel">Authorization</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="content-body">
+                    <input type="text" id="loginInput" class="form-control" placeholder="Wallet number" />
+                    <p class="input-error" style="display: none;"></p>
+                </div>
+                <div class="modal-footer">
+                    <button disabled type="button" class="btn btn-primary btn-login">Sign In</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--  BUTTONS TO TEST MODALS -->
+
+    <div class="invisible-buttons" style="display: none;">
+        <button class="btn-error" data-bs-toggle="modal" data-bs-target="#errorModal"></button>
+        <button class="btn-susseful" data-bs-toggle="modal" data-bs-target="#sussefulModal"></button>
+    </div>
+
+    <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="content-body">
+                    <div class="cross-wrapper">
+                        <i class="fas fa-times" style="font-size: 20px; color: rgb(244, 87, 37)"></i>
+                    </div>
+                    <div>
+                        <p class="modal-title">Error</p>
+                        <p class="modal-text">A technical error occurred during the purchase. To fix it, contact your
+                            wallet support</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary btn-home" data-bs-dismiss="modal"
+                        aria-label="Close">Home</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="sussefulModal" tabindex="-1" aria-labelledby="sussefulModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="content-body">
+                    <div class="check-wrapper">
+                        <i class="fas fa-check" style="font-size: 20px; color: rgb(74, 201, 155)"></i>
+                    </div>
+                    <div>
+                        <p class="modal-title">Success</p>
+                        <p class="modal-text">The purchase was successful. Bonuses are credited to the wallet</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary btn-home" data-bs-dismiss="modal"
+                        aria-label="Close">Home</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create NFT Modal -->
+    <div class="modal fade" id="addNftModal" tabindex="-1" aria-labelledby="addNftModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <img src="https://via.placeholder.com/500x300" alt="NFT IMAGE">
+                <div class="modal-body">
+                    <div class="modal-header">
+                        <div>
+                            <h5 class="modal-title" id="nftModalLabel">NFT Name</h5>
+                            <input class="tag-text form-control" placeholder="NFT Name" id="newNftTitle" />
+                        </div>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="content-body">
+                        <div class="modal-item mb-3">
+                            <div class="modal-subtitle">
+                                NFT
+                            </div>
+                            <div class="modal-tags">
+                                <div class="tag">
+                                    <p class="tag-title">Address</p>
+                                    <input class="tag-text form-control" placeholder="address" id="newNftAddress" />
+                                </div>
+                                <div class="tag">
+                                    <p class="tag-title">ID</p>
+                                    <input class="tag-text form-control" placeholder="unit1234" id="newNftId" />
+                                </div>
+                                <div class="tag">
+                                    <p class="tag-title">Seller</p>
+                                    <input class="tag-text form-control" placeholder="Seller" id="newNftSeller" />
+                                </div>
+                                <div class="tag">
+                                    <p class="tag-title">ChainID</p>
+                                    <input class="tag-text form-control" placeholder="Chain name" id="newNftChain" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-item mb-3">
+                            <div class="modal-subtitle">
+                                Buy details
+                            </div>
+                            <div class="modal-tags">
+                                <div class="tag">
+                                    <p class="tag-title">Type</p>
+                                    <input class="tag-text form-control" placeholder="ETH" id="newNftType" />
+                                </div>
+                                <div class="tag">
+                                    <p class="tag-title">Price</p>
+                                    <input class="tag-text form-control" placeholder="100" id="newNftPrice" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-item mb-3">
+                            <div class="modal-subtitle">
+                                Buy details
+                            </div>
+                            <input class="tag-text form-control" placeholder="Description" id="newNftDescription" />
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary card-btn btn-create">Create</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const btnSusseful = document.querySelector(".btn-susseful");
+        const btnError = document.querySelector(".btn-error");
+    </script>
+    <script>
+        // ERC721 and ERC165 functions
+        const abi = [
+            "function supportsInterface(bytes4 interfaceId) public view virtual override(ERC721, AccessControl) returns (bool)",
+            "function balanceOf(address owner) public view virtual returns (uint256)",
+            "function ownerOf(uint256 tokenId) public view virtual returns (address)",
+            "function tokenURI(uint256 tokenId) public view virtual returns (string memory)",
+            "function approve(address to, uint256 tokenId) public virtual",
+            "function getApproved(uint256 tokenId) public view virtual returns (address)",
+            "function setApprovalForAll(address operator, bool approved) public virtual",
+            "function isApprovedForAll(address owner, address operator) public view virtual returns (bool)",
+            "function transferFrom(address from, address to, uint256 tokenId) public virtual",
+            "function safeTransferFrom(address from, address to, uint256 tokenId) public",
+            "function safeTransferFrom(address from, address to, uint256 tokenId, bytes calldata data) public virtual",
+            "function hasRole(bytes32 role, address account) public view virtual returns (bool)",
+            "function getRoleAdmin(bytes32 role) public view virtual returns (bytes32)",
+            "function grantRole(bytes32 role, address account) public virtual",
+            "function revokeRole(bytes32 role, address account) public virtual",
+            "function renounceRole(bytes32 role, address callerConfirmation) public virtual",
+            "function addProduct(string memory _name, uint256 _price, bool _isForSale, bool _isForRent, uint256 _expirationTime) external onlyAdmin",
+            "function buyProduct(uint256 _productId, address _referrer) external payable nonReentrant",
+            "function rentProduct(uint256 _productId, address _referrer) external payable nonReentrant",
+            "function updateReferralBonus(uint256 _newReferralBonus) external onlyAdmin",
+            "function updateMinSalePrice(uint256 _newMinSalePrice) external onlyAdmin",
+            "function updateMinRentPrice(uint256 _newMinRentPrice) external onlyAdmin",
+            "function updateFeePercentage(uint256 _newFeePercentage) external onlyAdmin",
+            "function _handlePayment(address recipient, uint256 amount, address referrer) internal"];
+        let contractAddress;
+        const getAddress = async () => {
+            contractAddress = document.getElementById("wallet_address").innerHTML;
+        };
+        console.log(contractAddress);
+        let provider;
+        let wallet;
+        let contract;
+        async function connectToContract() {
+            provider = new ethers.providers.Web3Provider(this.parent.ethereum);
+            wallet = provider.getSigner();
+            contract = new ethers.Contract(contractAddress, abi, wallet);
+        }
+        setTimeout(() => {
+            getAddress();
+            connectToContract();
+        }, 2100);
+    </script>
+
+    <script>
+        function shortenAddress(address) {
+          if (address.length < 10) return address;
+          return address.slice(0, 6) + "..." + address.slice(-5);
+        }
+        const customCallToast = (msg) => {
+          Toastify({
+            text: msg,
+            position: "center",
+            gravity: "top",
+          }
+                  ).showToast();
+        };
+        let nfts = [];
+        const getNfts = async () => {
+          const get_nfts = await contract.queryFilter("Transfer");
+          get_nfts.forEach((nft) => {
+            nfts.push(nft.args);
+          }
+                          );
+        };
+        const renderNfts = async () => {
+          const section = document.getElementById("gallery");
+          section.innerHTML = "";
+          console.log(nfts.length);
+          for (let item in nfts) {
+            const nft = nfts[item];
+            const id = nft[2];
+            try {
+              const link = await contract.tokenURI(id);
+              if (!link.startsWith("http")) {
+                console.log(link);
+                if (!link) {
+                  continue;
+                }
+                customCallToast(`Invalid link for nft with id: ${id}
+    `);
+                continue;
+              }
+              const res = await fetch(link);
+              const json = await res.json();
+              const ownerAddress = await contract.ownerOf(id);
+              section.innerHTML += `
+              <div class="col" data-bs-toggle="modal" data-bs-target="#nftModal">
+                <div class="card h-100">
+                    <p class="card-id" style="display: none">${nft.id}</p>
+                    <img src="${
+                        json.image
+                          ? json.image
+                        : "https://via.assets.so/img.jpg?w=400&h=300&tc=blue&bg=#cecece"
+                      }
+              " class="card-img-top" alt="NFT Image" />
+                    <div class="card-body">
+                        <h5 class="card-title">${
+                            json.name ? json.name : "Name not defined"
+                          }</h5>
+                        <p class="card-text">
+                            <p>Owner:</p> <p class="text-lg font-normal text-end">${shortenAddress(
+                                ownerAddress
+                              )}</p>
+                              <p>ID ${id}</p>
+                        </p>
+                        ${
+                            json.description
+                              ? json.description
+                            : "Description not found"
+                          }
+                        </p>
+                        <button class="btn btn-primary card-btn ${btnType}">${btnText}</button>
+                    </div>
+                </div>
+            </div>
+    
+    `;
+            }
+            catch (err) {
+              customCallToast(`Failed to withdraw nft with id: ${id}
+    `);
+            }
+          }
+        };
+        setTimeout(() => {
+          getNfts().then(renderNfts);
+        }
+                   , 3000);
+      </script>
+
+
+    <script>
+        const nftData = [
+            { title: "NFT 1", imageUrl: "https://via.placeholder.com/150", address: "address", id: "unit1234", seller: "address", chainid: "chain name", type: "ETH", price: "unit1234", status: 'active' },
+            { title: "NFT 2", imageUrl: "https://via.placeholder.com/150", address: "address", id: "unit1234", seller: "address", chainid: "chain name", type: "ETH", price: "unit1234", status: 'selled' },
+            { title: "NFT 3", imageUrl: "https://via.placeholder.com/150", address: "address", id: "unit1234", seller: "address", chainid: "chain name", type: "ETH", price: "unit1234", status: 'passive' },
+            { title: "NFT 4", imageUrl: "https://via.placeholder.com/150", address: "address", id: "unit1234", seller: "address", chainid: "chain name", type: "ETH", price: "unit1234", status: 'passive' }
+        ];
+
+        function renderGallery(nftArray) {
+            const galleryElement = document.getElementById("gallery");
+            galleryElement.innerHTML = "";
+
+            if (nftArray.length === 0) {
+                galleryElement.innerHTML = "<p class='mt-4'>Nothing found</p>";
+            }
+
+            nftArray.forEach(nft => {
+                const btnType = nft.status === 'active' ? 'btn-stopsell' : nft.status === 'selled' ? 'btn-selled' : 'btn-sell';
+                const btnText = btnType === "btn-stopsell" ? "Remove from sale" : btnType === 'btn-selled' ? "Sold" : "Sell";
+                const card = `
+                    <div class="col" data-bs-toggle="modal" data-bs-target="#nftModal">
+                            <div class="card h-100">
+                                <p class="card-id" style="display: none">${nft.id}</p>
+                                <img src="${nft.imageUrl}" class="card-img-top" alt="NFT Image" />
+                                <div class="card-body">
+                                    <h5 class="card-title">${nft.title}</h5>
+                                    <p class="card-text">
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                                        eiusmod.
+                                    </p>
+                                    <button class="btn btn-primary card-btn ${btnType}">${btnText}</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                galleryElement.innerHTML += card;
+            });
+
+        }
+
+        let status = 'all';
+        let filteredText = '';
+        function filterNFTs(query, status) {
+            filteredNFTs = nftData.filter(nft => nft.title.toLowerCase().includes(query.toLowerCase()));
+            filteredNFTs = status === "all" ? filteredNFTs : filteredNFTs.filter(nft => nft.status === status);
+            renderGallery(filteredNFTs);
+        }
+
+        document.getElementById("searchInput").addEventListener("change", function (event) {
+            filteredText = event.target.value;
+            filterNFTs(filteredText, status);
+        });
+
+        const filters = Array.from(document.querySelector(".filters").querySelectorAll("li"));
+
+        filters.map(filter => {
+            filter.addEventListener('click', (event) => {
+                status = event.target.getAttribute('data-status');
+                console.log(status);
+                filterNFTs(filteredText, status);
+
+                filters.map(fill => { fill.removeAttribute('class'); });
+                event.target.classList.add('active');
+            });
+        });
+
+        console.log(nftData);
+        if (!document.getElementById("gallery").textContent.trim()) renderGallery(nftData);
+    </script>
+
+    <script>
+        console.log(document.querySelectorAll(".col").length, "Number of records");
+
+        function renderModal(modal) {
+            oldModal = document.querySelector("#nftModal");
+            oldModal.innerHTML = modal;
+        }
+
+        Array.from(document.querySelectorAll(".col")).map(card => card.addEventListener('click', () => {
+            let cardId = card.querySelector(".card-id").textContent;
+            let cardTitle = card.querySelector(".card-title").textContent;
+            let selectedNft = nftData.filter(nft => nft.id == cardId && nft.title == cardTitle)[0];
+            const btnType = selectedNft.status === 'active' ? 'btn-stopsell' : selectedNft.status === 'selled' ? 'btn-selled' : 'btn-sell';
+            const btnText = btnType === "btn-stopsell" ? "Remove from sale" : btnType === 'btn-selled' ? "Sold" : "Sell";
+            console.log(selectedNft);
+
+            let modal = `
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                        
+                        <div class="modal-header mobile">
+                            <h5 class="modal-title" id="nftModalLabel">${selectedNft.title}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <img src="https://via.placeholder.com/500x300" alt="NFT IMAGE">
+                        <div class="modal-body">
+                            <div class="modal-header desktop">
+                                <h5 class="modal-title" id="nftModalLabel">${selectedNft.title}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="content-body">
+                                <div class="modal-item mb-3">
+                                    <div class="modal-subtitle">
+                                        NFT
+                                    </div>
+                                    <div class="modal-tags">
+                                        <div class="tag">
+                                            <p class="tag-title">Address</p>
+                                            <p class="tag-text">${selectedNft.address}</p>
+                                        </div>
+                                        <div class="tag">
+                                            <p class="tag-title">ID</p>
+                                            <p class="tag-text">${selectedNft.id}</p>
+                                        </div>
+                                        <div class="tag">
+                                            <p class="tag-title">Seller</p>
+                                            <p class="tag-text">${selectedNft.seller}</p>
+                                        </div>
+                                        <div class="tag">
+                                            <p class="tag-title">ChainID</p>
+                                            <p class="tag-text">${selectedNft.chainid}</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="modal-item mb-3">
+                                    <div class="modal-subtitle">
+                                        Buy details
+                                    </div>
+                                    <div class="modal-tags">
+                                        <div class="tag">
+                                            <p class="tag-title">Type</p>
+                                            <p class="tag-text">${selectedNft.type}</p>
+                                        </div>
+                                        <div class="tag">
+                                            <p class="tag-title">Price</p>
+                                            <p class="tag-text">${selectedNft.price}</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="modal-item mb-3">
+                                    <div class="modal-subtitle">
+                                        Buy details
+                                    </div>
+                                    <p>
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing
+                                        elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+                                        aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                                        laboris nisi ut aliquip ex ea commodo consequat.
+                                    </p>
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary card-btn ${btnType}">${btnText}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                `;
+            renderModal(modal);
+        }));
+    </script>
+
+    <script>
+        const loginInput = document.querySelector("#loginInput");
+        const loginButton = document.querySelector(".btn-login");
+        loginInput.addEventListener('input', (event) => {
+            let inputError = document.querySelector('.input-error');
+
+            if (!!event.target.value) {
+                loginButton.disabled = false;
+
+                if (!Number(event.target.value)) {
+                    loginInput.classList.add('error');
+                    inputError.style.display = 'block';
+                    inputError.textContent = 'Invalid number format. The number must contain digits';
+                } else {
+                    loginInput.classList.remove('error');
+                    inputError.style.display = 'none';
+                    inputError.textContent = '';
+                }
+            } else {
+                loginButton.disabled = true;
+                loginInput.classList.remove('error');
+                inputError.style.display = 'none';
+                inputError.textContent = '';
+            }
+        });
+
+        loginButton.addEventListener('click', (event) => {
+            event.preventDefault();
+            if (loginInput.classList.includes('error')) {
+                console.log('There is an error');
+            }
+        });
+    </script>
+
+    <script>
+        document.querySelector('.btn-create').addEventListener('click', (event) => {
+            event.preventDefault();
+            const modal = document.querySelector('#addNftModal');
+
+            const title = modal.querySelector('#newNftTitle').value || "New NFT";
+            const address = modal.querySelector('#newNftAddress').value || "address";
+            const id = modal.querySelector('#newNftId').value || "id";
+            const seller = modal.querySelector('#newNftSeller').value || "seller";
+            const chainid = modal.querySelector('#newNftChain').value || "chainid";
+            const type = modal.querySelector('#newNftType').value || "type";
+            const price = modal.querySelector('#newNftPrice').value || "price";
+
+            const modalData = { title: title, imageUrl: "https://via.placeholder.com/150", address: address, id: id, seller: seller, chainid: chainid, type: type, price: price, status: 'passive' };
+
+            nftData.push(modalData);
+            renderGallery(nftData);
+        });
+    </script>
+</body>
+
+</html>
