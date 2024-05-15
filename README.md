@@ -25,4 +25,4 @@ https://test.forwardfactory.ai/services/marketplace/description/1f7eb8e5-7e8e-43
 
 
 Video-instruction_"IP automated licensing"_"React" (turn on subtitles in eng):
-https://www.loom.com/share/3c7d67eaf2224a5b8f402bb98599eaa8?sid=d6b08596-948b-4d5d-b8d6-0ac8544719a1
+https://youtu.be/f5tEDpzuOEI
